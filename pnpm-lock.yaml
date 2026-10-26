@@ -343,6 +343,9 @@ importers:
       '@open-instinct/inkbox':
         specifier: workspace:*
         version: link:../inkbox
+      '@open-instinct/keenable':
+        specifier: workspace:*
+        version: link:../keenable
       '@open-instinct/network':
         specifier: workspace:*
         version: link:../network
