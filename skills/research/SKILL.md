@@ -23,8 +23,10 @@ assumption in the brief.
    you need and keep its source URLs. Never send private messages, mail,
    calendar data, memory or secrets in the task.
 2. Otherwise, `web_search` with 2 or 3 differently worded queries. Prefer primary sources:
-   the company's own page, the paper, the filing, the official docs.
-3. Use `web_fetch` for a source that still needs closer reading.
+   the company's own page, the paper, the filing, the official docs. If
+   `keenable_search` is available, use it in place of `web_search`.
+3. Use `web_fetch` for a source that still needs closer reading, or
+   `keenable_fetch` if it is available.
 4. Use the desktop (skill `maritime-computer`) only when fetch fails: heavy
    JavaScript, maps, PDFs that need a viewer, interactive comparisons. Do not
    log in to anything for research; if a source needs a login, say so.
