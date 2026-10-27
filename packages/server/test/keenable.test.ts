@@ -45,6 +45,10 @@ describe("Keenable wiring in boot", () => {
     const base = (await bootWith({})).tools;
     expect((await bootWith({ KEENABLE_SEARCH: "0" })).tools).toBe(base);
     expect((await bootWith({ KEENABLE_SEARCH: "1" })).tools).toBe(base + 2);
+    // The same values the gateway accepts, since `instinct deploy` forwards the switch as written.
+    expect((await bootWith({ KEENABLE_SEARCH: "true" })).tools).toBe(base + 2);
+    expect((await bootWith({ KEENABLE_SEARCH: "Yes" })).tools).toBe(base + 2);
+    expect((await bootWith({ KEENABLE_SEARCH: "false" })).tools).toBe(base);
     const keyed = await bootWith({ KEENABLE_API_KEY: KEY });
     expect(keyed.tools).toBe(base + 2);
     for (const line of keyed.logs) expect(line).not.toContain(KEY);

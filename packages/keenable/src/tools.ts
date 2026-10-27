@@ -48,7 +48,7 @@ function keenableSearchTool({ apiKey, baseUrl = DEFAULT_BASE_URL, fetchImpl = fe
     }),
     meta: { capabilities: ["web.read"], group: "web", describe: (args) => `search ${argText(args, "query")}` },
     execute: async ({ query, site, published_after }, _ctx, signal) => {
-      if (published_after && !/^\d{4}-\d{2}-\d{2}$/.test(published_after)) return failedResult("published_after must be a date in the form YYYY-MM-DD.");
+      if (published_after && !isCalendarDate(published_after)) return failedResult("published_after must be a real date in the form YYYY-MM-DD.");
       const body = {
         query,
         max_results: SEARCH_RESULTS,
@@ -158,6 +158,13 @@ function requestErrorResult(response: Response, apiKey: string | undefined): Too
 
 function failedResult(message: string): ToolResultLike {
   return { content: [{ type: "text", text: message }], isError: true };
+}
+
+/** YYYY-MM-DD naming a real day. Date rolls 2026-02-30 over into March, so the round trip must match. */
+function isCalendarDate(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
 function hostOf(url: string): string {

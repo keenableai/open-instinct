@@ -79,6 +79,17 @@ describe("keenable_search", () => {
     expect(fetchImpl).not.toHaveBeenCalled();
   });
 
+  it("refuses a date-shaped published_after that names no real day", async () => {
+    const fetchImpl = vi.fn(async () => json({ results: [] }));
+    const search = tool("keenable_search", { fetchImpl });
+    for (const published_after of ["2026-02-30", "2026-13-01", "2026-00-10"]) {
+      expect(await search.spec.execute({ query: "q", published_after }, ctx)).toMatchObject({ isError: true });
+    }
+    expect(fetchImpl).not.toHaveBeenCalled();
+    await search.spec.execute({ query: "q", published_after: "2024-02-29" }, ctx);
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+  });
+
   it("says so when there are no results", async () => {
     const search = tool("keenable_search", { fetchImpl: vi.fn(async () => json({ results: [] })) });
     expect(text(await search.spec.execute({ query: "nothing here" }, ctx))).toBe('No results for "nothing here".');
