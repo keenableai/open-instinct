@@ -27,8 +27,8 @@ to each agent it provisions.
 
 ## How the agent uses it
 
-When the tools are present, the research skill searches with `keenable_search`
-instead of `web_search`, and can read a source with `keenable_fetch`. Without
+When the tools are present, the research skill says `keenable_search` and
+`keenable_fetch` are also available, next to `web_search` and `web_fetch`. Without
 `KEENABLE_SEARCH=1` or a key, the tools are absent and the existing
 `web_search` and `web_fetch` flow is unchanged.
 
